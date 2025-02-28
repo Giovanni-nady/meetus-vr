@@ -25,8 +25,8 @@ export default function Dashboard () {
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
       <div className='bg-white p-8 rounded-lg shadow-lg max-w-md w-full'>
-        <h1 className='text-2xl font-bold text-center mb-6'>
-          Welcome, {user.name}
+        <h1 className='text-2xl font-bold text-center mb-6 text-neutral-800'>
+          Welcome, {user?.name}
         </h1>
         <button
           onClick={() => {

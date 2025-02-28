@@ -45,7 +45,9 @@ export default function LoginPage () {
             setError('')
             try {
               const userData = await login(values.email, values.password)
-              setUser(userData)
+              console.log({userData});
+              
+              setUser(userData.userInfo)
               router.push('/dashboard')
             } catch (error) {
               setError('Invalid credentials')

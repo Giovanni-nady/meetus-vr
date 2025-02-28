@@ -16,7 +16,7 @@ export const useAuthStore = create<AuthState>()(
       setUser: user => set({ user }),
       logout: () => set({ user: null }),
       loadUser: async () => {
-        if (get().user) return // Prevent redundant API calls
+        if (get().user) return
         const userInfo = await getUserInfo()
         if (userInfo) set({ user: userInfo })
       }
