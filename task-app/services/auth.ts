@@ -1,32 +1,39 @@
+import axios from 'axios'
 import Cookies from 'js-cookie'
+
+const API_URL = 'https://api-yeshtery.dev.meetusvr.com/v1/yeshtery/token'
 
 export const login = async (email: string, password: string) => {
   try {
-    const response = await fetch(
-      'https://api-yeshtery.dev.meetusvr.com/v1/yeshtery/token',
+    const response = await axios.post(
+      API_URL,
       {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password, isEmployee: true })
+        email,
+        password,
+        isEmployee: true
+      },
+      {
+        headers: { 'Content-Type': 'application/json' }
       }
     )
 
-    if (!response.ok) throw new Error('Invalid credentials')
-
-    const data = await response.json()
+    console.log('Login response:', response)
 
     // Store token in HTTP-only cookie
-    Cookies.set('token', data.token, { expires: 7 })
+    Cookies.set('token', response.data.token, { expires: 7 })
 
-    return data
+    return response.data
   } catch (error) {
-    console.error('Login failed:', error)
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message)
+    } else {
+      console.error('Unexpected error:', error)
+    }
     throw error
   }
 }
 
 export const logout = () => {
   Cookies.remove('token') // Remove token from cookies
+  console.log('User logged out')
 }
